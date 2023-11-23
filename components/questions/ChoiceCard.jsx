@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  Pressable,
-} from 'react-native';
+import { StyleSheet, Text, Pressable } from 'react-native';
 import { COLORS, SIZES } from '../../styles';
 
-const ChoiceCard = ({ content }) => {
+const ChoiceCard = ({ content, number, onSelect }) => {
   const [isSelected, setIsSelected] = useState(false);
+
+  const handlePress = () => {
+    setIsSelected(!isSelected);
+    onSelect(number, !isSelected);
+  };
 
   return (
     <Pressable
-      onPress={() => { setIsSelected(!isSelected) }}
+      onPress={handlePress}
       style={[
         styles.choiceCard,
         isSelected && styles.choiceCardSelected,

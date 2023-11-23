@@ -4,7 +4,7 @@ const activitiesData = [
     id: 1,
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/stretching-100.png'),
-    duration: '12',
+    duration: '1',
   },
   {
     activity: 'Walking',

@@ -22,7 +22,7 @@ const ActivitiesScreen = () => {
       edges={['right', 'bottom', 'left']}
       style={STYLES.container}
     >
-      <ScrollView style={{ overflow: 'visible' }}>
+      <ScrollView >
         <View style={[STYLES.wrapper, { flex: 1, marginTop: SIZES.small }]}>
           {/* weekly activites stats section */}
           <Text style={styles.sectionTitle}>Today's activities stats</Text>

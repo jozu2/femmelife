@@ -1,9 +1,11 @@
 // store.js
-import { createStore, combineReducers } from 'redux';
+import { combineReducers, createStore } from 'redux';
 import waterTrackerReducer from './reducers/waterTrackerReducer';
+import userReducer from './reducers/user';
 
 const rootReducer = combineReducers({
   waterTracker: waterTrackerReducer,
+  user: userReducer 
 });
 
 const store = createStore(rootReducer);

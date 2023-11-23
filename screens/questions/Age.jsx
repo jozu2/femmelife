@@ -10,9 +10,13 @@ import SafeAreaView from 'react-native-safe-area-view';
 import STYLES from '../../styles/global.style';
 import questionStyles from './styles/questions.style';
 import { BackButton, NextButton } from '../../components';
+import { putUserAge } from '../../context/actions/user';
+import useUserDetails from '../../hooks/useUserDetails';
+import { useDispatch } from 'react-redux';
 
 const Age = () => {
-  const [name, setName] = useState('');
+  const dispatch = useDispatch()
+  const { name } = useUserDetails()
 
   // input validation for name, will resume this
   const isInputEmpty = () => {
@@ -30,7 +34,7 @@ const Age = () => {
           </View>
           <TextInput
             value={name}
-            onChangeText={(text) => setName(text)}
+            onChangeText={(text) => dispatch(putUserAge(text))}
             style={questionStyles.nameInput}
             inputMode='numeric'
           />

@@ -15,8 +15,7 @@ import STYLES from '../../styles/global.style';
 import styles from './styles/signUpScreen.style';
 import { COLORS } from '../../styles';
 import Checkbox from 'expo-checkbox';
-import { auth, database } from '../../services/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, database, createUserWithEmailAndPassword } from '../../services/firebase';
 import { setDoc, doc } from 'firebase/firestore';
 
 const SignUpScreen = () => {

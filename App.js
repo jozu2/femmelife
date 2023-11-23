@@ -4,7 +4,7 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
 import { RootStackNavigator } from "./navigators";
-import { Provider } from "react-redux";
+import { Provider } from 'react-redux';
 import store from "./context/store";
 
 const App = () => {
