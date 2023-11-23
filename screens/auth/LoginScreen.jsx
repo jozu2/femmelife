@@ -101,7 +101,6 @@ const LoginScreen = () => {
             <Text style={styles.socialLoginTitle}>or</Text>
             <View style={styles.socialLogin}>
               <TouchableOpacity
-                onPress={() => navigation.replace('QuestionsStack')}
                 style={styles.socialLoginBtn}
                 activeOpacity={0.8}
               >
@@ -112,7 +111,6 @@ const LoginScreen = () => {
                 <Text style={styles.socialLoginBtnText}>Sign up with Apple</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => navigation.replace('QuestionsStack')}
                 style={styles.socialLoginBtn}
                 activeOpacity={0.8}
               >

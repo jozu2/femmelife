@@ -10,7 +10,7 @@ import {
   ActivityIndicator,
   Alert
 } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import STYLES from '../../styles/global.style';
 import styles from './styles/signUpScreen.style';
 import { COLORS } from '../../styles';
@@ -25,6 +25,16 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [isChecked, setIsChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [formattedDate, setFormattedDate] = useState('');
+
+  useEffect(() => {
+    const date = new Date();
+
+    const options = { weekday: 'long', month: 'long', day: 'numeric' }
+    const formatted = date.toLocaleDateString('en-US', options);
+
+    setFormattedDate(formatted);
+  }, []);
 
   const signUp = async () => {
     try {
@@ -33,8 +43,10 @@ const SignUpScreen = () => {
       const userId = auth.currentUser?.uid;
       await setDoc(doc(database, "users", userId), {
         name: name,
-        dateCreated: new Date(),
+        dateCreated: formattedDate,
         userId: userId,
+        email: email,
+        mensDate: null,
       })
       console.log('Signed up with' + auth.currentUser?.email);
       alert('Signed up successfully!');

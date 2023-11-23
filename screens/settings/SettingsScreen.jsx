@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -15,8 +15,8 @@ import styles from './settings.style';
 import { Ionicons } from '@expo/vector-icons';
 import ToggleSwitch from 'toggle-switch-react-native';
 import { COLORS } from '../../styles/theme';
-import { auth } from '../../services/firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, database } from './../../services/firebase';
 
 const SettingsScreen = (props) => {
   const { userImage, name, email, dateJoined } = props;
@@ -27,6 +27,29 @@ const SettingsScreen = (props) => {
     navigation.navigate(screen)
   };
 
+
+  const [userInfo, setUserInfo] = useState('');
+
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userId = auth.currentUser.uid;
+        const userDocRef = doc(database, 'users', userId);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setUserInfo(userData)
+        }
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+
+  
+      fetchUserInfo();
+  }, []);
   const requestAccountDeletion = () => {
     Alert.alert(
       'Send Request?',
@@ -68,8 +91,8 @@ const SettingsScreen = (props) => {
             style={styles.userImage}
           />
           <View style={styles.userInfoRow}>
-            <Text style={styles.name}>Juana Cruz</Text>
-            <Text style={styles.email}>JuanaCruz@gmail.com</Text>
+            <Text style={styles.name}>{userInfo.name}</Text>
+            <Text style={styles.email}>{userInfo.email}</Text>
           </View>
 
           <TouchableOpacity style={styles.editBtn}>
@@ -82,7 +105,7 @@ const SettingsScreen = (props) => {
 
         <View style={styles.sectionCard}>
           <Text style={styles.sectionLabel}>Date joined</Text>
-          <Text style={styles.sectionLabel}>October 25, 2023</Text>
+          <Text style={styles.sectionLabel}>{userInfo.dateCreated}</Text>
         </View>
 
         <TouchableOpacity

@@ -10,14 +10,16 @@ import { COLORS, SIZES } from '../../styles';
 import styles from './styles/header.style';
 import STYLES from '../../styles/global.style';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { auth, database } from '../../services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const Header = () => {
   const navigation = useNavigation();
   const [formattedDate, setFormattedDate] = useState('');
   const [predictedPeriodDate, setPredictedPeriodDate] = useState('');
 
-  // set current date
   useEffect(() => {
     const date = new Date();
     const predictedPeriodDate = new Date(date);
@@ -31,8 +33,31 @@ const Header = () => {
     setPredictedPeriodDate(formattedPredictedPeriodDate);
   }, []);
 
+
+  const [userInfo, setUserInfo] = useState('Juana Cruz');
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const userId = auth.currentUser.uid;
+        const userDocRef = doc(database, 'users', userId);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setUserInfo(userData)
+        }
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+
+  
+      fetchUserInfo();
+  }, []);
+
   return (
-    <View>
+    <SafeAreaView>
       <View style={[
         STYLES.row,
         { gap: SIZES.xSmall, justifyContent: 'space-between' },
@@ -44,7 +69,7 @@ const Header = () => {
           />
           <View>
             <Text style={styles.subtitle}>Hello,</Text>
-            <Text style={styles.name}>Juana Cruz</Text>
+            <Text style={styles.name}>{userInfo.name}</Text>
           </View>
         </View>
         <TouchableOpacity
@@ -59,8 +84,7 @@ const Header = () => {
       </View>
       <View style={styles.periodInfo}>
         <View style={styles.periodInfoText}>
-          <Text style={styles.periodInfoSubtitle}>Period coming in</Text>
-          <Text style={styles.periodInfoDay}>3 days</Text>
+          <Text style={styles.periodInfoSubtitle}>xxx</Text>
           <Text style={styles.periodInfoDate}>{predictedPeriodDate}</Text>
         </View>
         <Image
@@ -68,7 +92,7 @@ const Header = () => {
           style={styles.periodInfoImg}
         />
       </View>
-    </View>
+    </SafeAreaView>
   )
 };
 
