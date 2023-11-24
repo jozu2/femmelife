@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Pressable, Text, View, ScrollView } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import SafeAreaView from 'react-native-safe-area-view';
@@ -49,18 +49,43 @@ const ReportScreen = () => {
   console.log(selectedDate)
 
   const [userInfo, setUserInfo] = useState('');
+  const [isLoading, setIsloading] = useState(false);
+
   const userId = auth.currentUser.uid;
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        setIsloading(true)
+        const userDocRef = doc(database, 'users', userId);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+          const userData = userDocSnap.data();
+          setUserInfo(userData.mensDate)
+        }
+
+
+        setIsloading(false)
+
+      } catch (error) {
+        console.error('Error fetching user role:', error);
+      }
+    };
+      fetchUserInfo();
+  }, []);
+
+
+
 console.log(userId)
-  const fetchUserInfo = async (startDate) => {
+  const fetchUserInfo = async ({startDate,endDate}) => {
     try {
       const userDocRef = doc(database, 'users', userId);
       const userDocSnap = await getDoc(userDocRef);
   
       if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
         
         await updateDoc(userDocRef, {
-          mensDate: startDate
+          mensDate: {startDate, endDate}
         });
         console.log('Data updated successfully!');
    
@@ -70,7 +95,24 @@ console.log(userId)
     }
   };
 
+useEffect(()=>{
+  if(userInfo){
+    const startDate = userInfo.startDate;
+    const updatedMarkedDates = { ...markedDates };
+    Object.keys(updatedMarkedDates).forEach((date) => {
+      updatedMarkedDates[date] = { marked: false };
+    });
 
+    
+    for (let i = 0; i < 5; i++) {
+      const currentDate = calculateEndDate(startDate, i);
+      updatedMarkedDates[currentDate] = {selected: true, marked: true, selectedColor: COLORS.primary };
+    }
+
+    setMarkedDates(updatedMarkedDates);
+    setSelectedDate(startDate);
+  }
+},[userInfo])
 
   const handleDayPress = (day) => {
 
@@ -82,7 +124,7 @@ console.log(userId)
         { text: 'No', style: 'cancel' },
         { text: 'Yes', onPress: () => {  const dayOfMens = 5
           const startDate = day.dateString;
-      
+          const endDate = calculateEndDate(startDate, 4);
           const updatedMarkedDates = { ...markedDates };
           Object.keys(updatedMarkedDates).forEach((date) => {
             updatedMarkedDates[date] = { marked: false };
@@ -96,8 +138,8 @@ console.log(userId)
       
           setMarkedDates(updatedMarkedDates);
           setSelectedDate(startDate);
-        
-          fetchUserInfo(startDate)
+        console.log(endDate)
+          fetchUserInfo({startDate,endDate})
         
         
         }, },
@@ -114,7 +156,7 @@ console.log(userId)
 
   return (
     <SafeAreaView style={STYLES.container}>
-      <ScrollView showsVerticalScrollIndicator={false} style={{ overflow: 'visible' }}>
+      {!isLoading ?    <ScrollView showsVerticalScrollIndicator={false} style={{ overflow: 'visible' }}>
         <View style={STYLES.wrapper}>
           <Calendar
             style={styles.calendar}
@@ -147,7 +189,7 @@ console.log(userId)
             <Text style={STYLES.label}>Cycle symptoms</Text>
           </View>
         </View>
-      </ScrollView>
+      </ScrollView>: <><Text>Loading....</Text></>}
     </SafeAreaView>
   );
 };
