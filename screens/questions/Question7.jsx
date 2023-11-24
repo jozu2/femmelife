@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -13,13 +13,19 @@ import STYLES from '../../styles/global.style';
 import questionStyles from './styles/questions.style';
 import { NextButton, BackButton } from '../../components';
 import { COLORS } from '../../styles';
-
+import { putUserBmi } from '../../context/actions/user';
+import { useDispatch } from 'react-redux';
 
 const Question7 = () => {
   const [weight, setWeight] = useState('');
   const [heightFeet, setHeightFeet] = useState('');
   const [heightInches, setHeightInches] = useState('');
   const [bmi, setBmi] = useState(0);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(putUserBmi(bmi));
+  }, [bmi])
 
   const calculateBMI = () => {
     if (!weight || !heightFeet || !heightInches) {

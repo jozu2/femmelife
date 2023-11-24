@@ -6,7 +6,6 @@ import questionStyles from './styles/questions.style';
 import { ChoiceCard, NextButton, BackButton } from '../../components';
 import { putUserGetUp } from '../../context/actions/user';
 import { useDispatch } from 'react-redux';
-import useUserDetails from '../../hooks/useUserDetails';
 const Question3 = () => {
   const dispatch = useDispatch();
   const contents = [
