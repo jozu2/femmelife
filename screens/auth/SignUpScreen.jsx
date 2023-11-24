@@ -47,6 +47,13 @@ const SignUpScreen = () => {
         email: email,
         mensDate: null,
       })
+
+      await setDoc(doc(database, "pcosData", userId), {
+        name: name,
+        userId: userId,
+        isSet: false,
+        pcosUserData: null
+      })
       console.log('Signed up with' + auth.currentUser?.email);
       alert('Signed up successfully!');
     } catch (error) {

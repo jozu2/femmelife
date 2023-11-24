@@ -7,6 +7,8 @@ import { ChoiceCard, NextButton, BackButton } from '../../components';
 import { putUserSignOfPcos } from '../../context/actions/user';
 import { useDispatch } from 'react-redux';
 import useUserDetails from '../../hooks/useUserDetails';
+import { auth, database } from '../../services/firebase';
+import { doc, getDoc, updateDoc } from 'firebase/firestore';
 const Question8 = () => {
   const dispatch = useDispatch();
   const contents = [
@@ -19,6 +21,8 @@ const Question8 = () => {
   ];
   const [selectedChoice, setSelectedChoice] = useState(null);
 
+
+
   useEffect(() => {
       dispatch(putUserSignOfPcos(selectedChoice));
   }, [selectedChoice])
@@ -30,6 +34,30 @@ const Question8 = () => {
       setSelectedChoice(null);
     }
   };
+
+  const userDetail = useUserDetails()
+  const userId = auth.currentUser.uid;
+
+
+  const addPcosData = async () => {
+    try {
+      const userDocRef = doc(database, 'pcosData', userId);
+      const userDocSnap = await getDoc(userDocRef);
+  
+      if (userDocSnap.exists()) {
+        await updateDoc(userDocRef, {
+          pcosUserData: userDetail
+        });
+        console.log('Data updated successfully!');
+      }
+    } catch (error) {
+      console.error('Error updating user data:', error);
+    }
+  };
+
+
+
+
 
   return (
     <SafeAreaView style={STYLES.container}>
@@ -57,7 +85,7 @@ const Question8 = () => {
         </View>
         <View style={questionStyles.buttonsRow}>
           <BackButton />
-          <NextButton nextScreen='MainTabStack' />
+          <NextButton nextScreen='MainTabStack' disabled={false} addData={addPcosData} />
         </View>
       </View>
     </SafeAreaView>

@@ -9,12 +9,17 @@ import { COLORS, SIZES } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 
 
-const NextButton = ({ nextScreen, disabled }) => {
+const NextButton = ({ nextScreen, disabled, addData }) => {
   const navigation = useNavigation();
-
+  const handleBtn = () => {
+    if(addData){
+      addData()
+    }
+    navigation.navigate(nextScreen)
+  } 
   return (
     <Pressable
-      onPress={() => navigation.navigate(nextScreen)}
+      onPress={handleBtn}
       style={styles.nextButton}
       activeOpacity={0.8}
       disabled={disabled}

@@ -7,7 +7,7 @@ const ChoiceCard = ({ content, number, onSelect }) => {
 
   const handlePress = () => {
     setIsSelected(!isSelected);
-    onSelect(number, !isSelected);
+    onSelect(content, !isSelected);
   };
 
   return (
