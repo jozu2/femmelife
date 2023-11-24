@@ -34,7 +34,7 @@ const Header = () => {
   }, []);
 
 
-  const [userInfo, setUserInfo] = useState('Juana Cruz');
+  const [userInfo, setUserInfo] = useState('');
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -54,7 +54,7 @@ const Header = () => {
 
   
       fetchUserInfo();
-  }, []);
+  }, [userInfo]);
 
   return (
     <SafeAreaView>
@@ -84,9 +84,9 @@ const Header = () => {
       </View>
       <View style={styles.periodInfo}>
         <View style={styles.periodInfoText}>
-          <Text style={styles.periodInfoSubtitle}>xxx</Text>
-          <Text style={styles.periodInfoDate}>{predictedPeriodDate}</Text>
         </View>
+          <Text style={[styles.periodInfoDate,{position: 'absolute', left: 10, top: 10, zIndex:10000}]}>{userInfo.mensDate ? `Period Start in ${userInfo.mensDate.startDate}`: `No Current Date`}</Text>
+          <Text style={[styles.periodInfoDate,{position: 'absolute', left: 10, top: 35, zIndex:10000}]}>{userInfo.mensDate ? `Period Ends in ${userInfo.mensDate.endDate}`: `No Current Date`}</Text>
         <Image
           source={require('../../assets/images/home-period-info.png')}
           style={styles.periodInfoImg}
