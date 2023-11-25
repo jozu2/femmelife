@@ -4,10 +4,7 @@ import { COLORS, SIZES } from '../../styles';
 import STYLES from '../../styles/global.style';
 
 
-const ActivityCard = (props) => {
-  const { onPress, image, activityName, description, duration } = props;
-
-  return (
+const ActivityCard = ({ onPress, image, activityName, description, duration }) => (
     <Pressable
       style={[STYLES.sectionCard, styles.row]}
       onPress={onPress}
@@ -22,8 +19,7 @@ const ActivityCard = (props) => {
         <Text style={styles.duration}>{duration} mins</Text>
       </View>
     </Pressable>
-  );
-};
+);
 
 export default ActivityCard;
 

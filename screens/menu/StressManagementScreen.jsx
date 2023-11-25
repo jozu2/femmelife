@@ -5,7 +5,6 @@ import STYLES from '../../styles/global.style';
 import styles from './styles/stressManagement.style';
 import LottieView from 'lottie-react-native';
 import { COLORS } from '../../styles';
-
 const StressManagementScreen = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const animationRef = useRef(null);
@@ -21,7 +20,7 @@ const StressManagementScreen = () => {
 
   return (
     <SafeAreaView style={STYLES.container}>
-      <ScrollView style={{ overflow: 'visible' }}>
+      <ScrollView>
         <View style={[STYLES.wrapper, { flex: 1 }]}>
           <Text style={styles.greeting}>Good Morning!</Text>
           <Text style={styles.recommendation}>Start your day with your daily quote.</Text>
@@ -135,7 +134,7 @@ const StressManagementScreen = () => {
                 ref={animationRef} // Set the ref for animation
                 autoPlay={false} // Disable autoPlay
                 loop
-                source={require('../../assets/images/breathing-exercise.json')}
+                animationData={require('../../assets/images/breathing-exercise.json')}
               />
             </View>
           </View>

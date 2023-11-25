@@ -4,7 +4,8 @@ const activitiesData = [
     id: 1,
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/stretching-100.png'),
-    duration: '1',
+    duration: '.1',
+    finish: 0,
   },
   {
     activity: 'Walking',
@@ -12,6 +13,7 @@ const activitiesData = [
     image: require('../../assets/images/activities/walking-100.png'),
     description: 'Lorem ipsum dolor sit consectetur.',
     duration: '30',
+    finish: 0,
   },
   {
     activity: 'Yoga',
@@ -19,6 +21,7 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/yoga-100.png'),
     duration: '30',
+    finish: 0,
   },
   {
     activity: 'Meditation',
@@ -26,6 +29,7 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/meditation-100.png'),
     duration: '15',
+    finish: 0,
   },
   {
     activity: 'Jogging',
@@ -33,6 +37,7 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/jogging-100.png'),
     duration: '30',
+    finish: 0,
   },
   {
     activity: 'Dancing',
@@ -40,6 +45,7 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/dancing-100.png'),
     duration: '15',
+    finish: 0,
   },
   {
     activity: 'Cleaning',
@@ -47,6 +53,7 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/cleaning-100.png'),
     duration: '30',
+    finish: 0,
   },
   {
     activity: 'Reading',
@@ -54,8 +61,8 @@ const activitiesData = [
     description: 'Lorem ipsum dolor sit consectetur.',
     image: require('../../assets/images/activities/reading-100.png'),
     duration: '30',
+    finish: 0,
   },
-
-]
+];
 
 export default activitiesData;

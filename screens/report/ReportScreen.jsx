@@ -46,7 +46,7 @@ const ReportScreen = () => {
     },
   ]);
 
-  console.log(selectedDate)
+  console.log(selectedDate);
 
   const [userInfo, setUserInfo] = useState('');
   const [isLoading, setIsloading] = useState(false);
@@ -56,96 +56,90 @@ const ReportScreen = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        setIsloading(true)
+        setIsloading(true);
         const userDocRef = doc(database, 'users', userId);
         const userDocSnap = await getDoc(userDocRef);
         if (userDocSnap.exists()) {
           const userData = userDocSnap.data();
-          setUserInfo(userData.mensDate)
+          setUserInfo(userData.mensDate);
         }
 
-
-        setIsloading(false)
-
+        setIsloading(false);
       } catch (error) {
         console.error('Error fetching user role:', error);
       }
     };
-      fetchUserInfo();
+    fetchUserInfo();
   }, []);
 
-
-
-console.log(userId)
-  const fetchUserInfo = async ({startDate,endDate}) => {
+  const fetchUserInfo = async ({ startDate, endDate }) => {
     try {
       const userDocRef = doc(database, 'users', userId);
       const userDocSnap = await getDoc(userDocRef);
-  
+
       if (userDocSnap.exists()) {
-        
         await updateDoc(userDocRef, {
-          mensDate: {startDate, endDate}
+          mensDate: { startDate, endDate },
         });
         console.log('Data updated successfully!');
-   
       }
     } catch (error) {
       console.error('Error updating user data:', error);
     }
   };
 
-useEffect(()=>{
-  if(userInfo){
-    const startDate = userInfo.startDate;
-    const updatedMarkedDates = { ...markedDates };
-    Object.keys(updatedMarkedDates).forEach((date) => {
-      updatedMarkedDates[date] = { marked: false };
-    });
+  useEffect(() => {
+    if (userInfo) {
+      const startDate = userInfo.startDate;
+      const updatedMarkedDates = { ...markedDates };
+      Object.keys(updatedMarkedDates).forEach((date) => {
+        updatedMarkedDates[date] = { marked: false };
+      });
 
-    
-    for (let i = 0; i < 5; i++) {
-      const currentDate = calculateEndDate(startDate, i);
-      updatedMarkedDates[currentDate] = {selected: true, marked: true, selectedColor: COLORS.primary };
+      for (let i = 0; i < 5; i++) {
+        const currentDate = calculateEndDate(startDate, i);
+        updatedMarkedDates[currentDate] = {
+          selected: true,
+          marked: true,
+          selectedColor: COLORS.primary,
+        };
+      }
+
+      setMarkedDates(updatedMarkedDates);
+      setSelectedDate(startDate);
     }
-
-    setMarkedDates(updatedMarkedDates);
-    setSelectedDate(startDate);
-  }
-},[userInfo])
+  }, [userInfo]);
 
   const handleDayPress = (day) => {
-
-
-    Alert.alert(
-      'Confirm ?',
-      '',
-      [
-        { text: 'No', style: 'cancel' },
-        { text: 'Yes', onPress: () => {  const dayOfMens = 5
+    Alert.alert('Confirm ?', '', [
+      { text: 'No', style: 'cancel' },
+      {
+        text: 'Yes',
+        onPress: () => {
+          const dayOfMens = 5;
           const startDate = day.dateString;
           const endDate = calculateEndDate(startDate, 4);
           const updatedMarkedDates = { ...markedDates };
           Object.keys(updatedMarkedDates).forEach((date) => {
             updatedMarkedDates[date] = { marked: false };
           });
-      
-          
+
           for (let i = 0; i < dayOfMens; i++) {
             const currentDate = calculateEndDate(startDate, i);
-            updatedMarkedDates[currentDate] = {selected: true, marked: true, selectedColor: COLORS.primary };
+            updatedMarkedDates[currentDate] = {
+              selected: true,
+              marked: true,
+              selectedColor: COLORS.primary,
+            };
           }
-      
+
           setMarkedDates(updatedMarkedDates);
           setSelectedDate(startDate);
-        console.log(endDate)
-          fetchUserInfo({startDate,endDate})
-        
-        
-        }, },
-      ],
-    );
-   
+          console.log(endDate);
+          fetchUserInfo({ startDate, endDate });
+        },
+      },
+    ]);
   };
 
   const calculateEndDate = (startDate, daysToAdd) => {
@@ -156,40 +150,51 @@ useEffect(()=>{
 
   return (
     <SafeAreaView style={STYLES.container}>
-      {!isLoading ?    <ScrollView showsVerticalScrollIndicator={false} style={{ overflow: 'visible' }}>
-        <View style={STYLES.wrapper}>
-          <Calendar
-            style={styles.calendar}
-            onDayPress={handleDayPress}
-            theme={{
-              todayTextColor: COLORS.secondary,
-              textDayFontFamily: 'regular',
-            }}
-            hideArrows={false}
-            enableSwipeMonths={true}
-            markedDates={markedDates}
-          />
+      {!isLoading ? (
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ overflow: 'visible' }}
+        >
+          <View style={STYLES.wrapper}>
+            <Calendar
+              style={styles.calendar}
+              onDayPress={handleDayPress}
+              theme={{
+                todayTextColor: COLORS.secondary,
+                textDayFontFamily: 'regular',
+              }}
+              hideArrows={false}
+              enableSwipeMonths={true}
+              markedDates={markedDates}
+            />
 
-          <Text style={[STYLES.sectionTitle, { marginTop: SIZES.xLarge }]}>
-            My period logs and insights
-          </Text>
-          <View style={STYLES.sectionCard}>
-            <Text style={[STYLES.label, { fontSize: SIZES.large + 2 }]}>Cycle history</Text>
-            {cycleHistoryData.map((cycle, index) => (
-              <CycleHistoryCard
-                key={index}
-                month={cycle.month}
-                length={cycle.length}
-                startedDate={cycle.startedDate}
-                status={cycle.status}
-              />
-            ))}
+            <Text style={[STYLES.sectionTitle, { marginTop: SIZES.xLarge }]}>
+              My period logs and insights
+            </Text>
+            <View style={STYLES.sectionCard}>
+              <Text style={[STYLES.label, { fontSize: SIZES.large + 2 }]}>
+                Cycle history
+              </Text>
+              {cycleHistoryData.map((cycle, index) => (
+                <CycleHistoryCard
+                  key={index}
+                  month={cycle.month}
+                  length={cycle.length}
+                  startedDate={cycle.startedDate}
+                  status={cycle.status}
+                />
+              ))}
+            </View>
+            <View style={STYLES.sectionCard}>
+              <Text style={STYLES.label}>Cycle symptoms</Text>
+            </View>
           </View>
-          <View style={STYLES.sectionCard}>
-            <Text style={STYLES.label}>Cycle symptoms</Text>
-          </View>
-        </View>
-      </ScrollView>: <><Text>Loading....</Text></>}
+        </ScrollView>
+      ) : (
+        <>
+          <Text>Loading....</Text>
+        </>
+      )}
     </SafeAreaView>
   );
 };
