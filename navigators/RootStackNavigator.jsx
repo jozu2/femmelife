@@ -53,7 +53,7 @@ const RootStackNavigator = () => {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [userRole, setUserRole] = useState(null);
-  const [roleDetermined, setRoleDetermined] = useState(true); //  to avoid rendering user stacks while fetching role in firestore.
+  const [roleDetermined, setRoleDetermined] = useState(true); 
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -66,9 +66,9 @@ const RootStackNavigator = () => {
     }
   }, []);
 
+  const [userPcosData, setUserPcosData] = useState(null);
 
   useEffect(() => {
-    // Fetch user role from Firestore
     const fetchUserRole = async () => {
       try {
         const userId = auth.currentUser.uid;
@@ -80,6 +80,7 @@ const RootStackNavigator = () => {
           setUserRole(userData.role);
           setRoleDetermined(true); // set to true after fetching
         }
+
       } catch (error) {
         console.error('Error fetching user role:', error);
       }
@@ -87,6 +88,30 @@ const RootStackNavigator = () => {
 
     if (user) {
       fetchUserRole();
+    }
+  }, [user]);
+  useEffect(() => {
+    
+    const fetchPcosData = async () => {
+      
+      try {
+      const userId = auth.currentUser.uid;
+        const userPcosRef = doc(database, 'pcosData', userId);
+        const userPcosRefSnap = await getDoc(userPcosRef);
+        if (userPcosRefSnap.exists()) {
+          const userPData = userPcosRefSnap.data();
+          setUserPcosData(userPData.isSet);
+
+
+        }
+
+      } catch (error) {
+        console.error('Error fetching user pcos data:', error);
+      }
+    };
+
+    if (user) {
+      fetchPcosData();
     }
   }, [user]);
 
@@ -146,13 +171,14 @@ const RootStackNavigator = () => {
             },
           })}
         >
-          <RootStack.Screen
+          {!userPcosData && ( <RootStack.Screen
             name='QuestionsStack'
             component={QuestionsStackNavigator}
             options={{
               headerShown: false,
             }}
-          />
+          />)}
+     
           <RootStack.Screen
             name='MainTabStack'
             component={MainTabNavigator}

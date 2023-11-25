@@ -21,7 +21,7 @@ const StressManagementScreen = () => {
 
   return (
     <SafeAreaView style={STYLES.container}>
-      <ScrollView style={{ overflow: 'visible' }}>
+      <ScrollView >
         <View style={[STYLES.wrapper, { flex: 1 }]}>
           <Text style={styles.greeting}>Good Morning!</Text>
           <Text style={styles.recommendation}>Start your day with your daily quote.</Text>
@@ -38,7 +38,7 @@ const StressManagementScreen = () => {
 
           <ScrollView
             horizontal
-            style={{ overflow: 'visible' }}
+          
             showsHorizontalScrollIndicator={false}
           >
             <View style={styles.cardRow}>
