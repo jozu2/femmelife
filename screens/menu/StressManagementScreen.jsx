@@ -23,10 +23,14 @@ const StressManagementScreen = () => {
       <ScrollView>
         <View style={[STYLES.wrapper, { flex: 1 }]}>
           <Text style={styles.greeting}>Good Morning!</Text>
-          <Text style={styles.recommendation}>Start your day with your daily quote.</Text>
+          <Text style={styles.recommendation}>
+            Start your day with your daily quote.
+          </Text>
 
           <View style={styles.quoteCard}>
-            <Text style={styles.quoteText}>"Don't feel guilty doing what is best for yourself."</Text>
+            <Text style={styles.quoteText}>
+              "Don't feel guilty doing what is best for yourself."
+            </Text>
             <Image
               source={require('../../assets/images/meditation-3.png')}
               style={styles.quoteImg}
@@ -35,14 +39,10 @@ const StressManagementScreen = () => {
 
           <Text style={STYLES.sectionTitle}>Suggested For You</Text>
 
-          <ScrollView
-            horizontal
-            style={{ overflow: 'visible' }}
-            showsHorizontalScrollIndicator={false}
-          >
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.cardRow}>
               <TouchableOpacity
-                onPress={() => { }}
+                onPress={() => {}}
                 style={styles.suggestionCard}
                 activeOpacity={0.7}
               >
@@ -54,7 +54,7 @@ const StressManagementScreen = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => { }}
+                onPress={() => {}}
                 style={styles.suggestionCard}
                 activeOpacity={0.7}
               >
@@ -62,11 +62,13 @@ const StressManagementScreen = () => {
                   source={require('../../assets/images/talk-to-friend.png')}
                   style={styles.suggestionImg}
                 />
-                <Text style={styles.suggestionName}>Talk with your loved ones</Text>
+                <Text style={styles.suggestionName}>
+                  Talk with your loved ones
+                </Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => { }}
+                onPress={() => {}}
                 style={styles.suggestionCard}
                 activeOpacity={0.7}
               >
@@ -74,9 +76,10 @@ const StressManagementScreen = () => {
                   source={require('../../assets/images/reading-1.png')}
                   style={styles.suggestionImg}
                 />
-                <Text style={styles.suggestionName}>Read a book and limit screen time</Text>
+                <Text style={styles.suggestionName}>
+                  Read a book and limit screen time
+                </Text>
               </TouchableOpacity>
-
             </View>
           </ScrollView>
 
@@ -84,7 +87,9 @@ const StressManagementScreen = () => {
           <View style={styles.goalTodayCard}>
             <View>
               <Text style={styles.goalTitle}>No caffeine for today</Text>
-              <Text style={styles.goalDesc}>Drink water only through out the day.</Text>
+              <Text style={styles.goalDesc}>
+                Drink water only through out the day.
+              </Text>
             </View>
             <Image
               source={require('../../assets/images/no-coffee.png')}
@@ -95,7 +100,9 @@ const StressManagementScreen = () => {
           <View style={styles.goalTodayCard}>
             <View>
               <Text style={styles.goalTitle}>Aim for 10,000 steps</Text>
-              <Text style={styles.goalDesc}>Make this a habit daily for better heart health.</Text>
+              <Text style={styles.goalDesc}>
+                Make this a habit daily for better heart health.
+              </Text>
             </View>
             <Image
               source={require('../../assets/images/footprints.png')}
@@ -106,7 +113,9 @@ const StressManagementScreen = () => {
           <View style={styles.goalTodayCard}>
             <View>
               <Text style={styles.goalTitle}>Limit screen time</Text>
-              <Text style={styles.goalDesc}>At least 4 to 5 hours and avoid social media</Text>
+              <Text style={styles.goalDesc}>
+                At least 4 to 5 hours and avoid social media
+              </Text>
             </View>
             <Image
               source={require('../../assets/images/no-phone.png')}
@@ -117,16 +126,30 @@ const StressManagementScreen = () => {
           <Text style={STYLES.sectionTitle}>Breathing Exercise</Text>
           <View style={styles.animationWrapper}>
             <View style={styles.instructions}>
-              <Text style={styles.intructionsText}>1. Sit or lie down comfortably.</Text>
-              <Text style={styles.intructionsText}>2. Imagine a box with four equal sides.</Text>
-              <Text style={styles.intructionsText}>3. Breathe in slowly for 4 counts, hold your breath for 4 counts, exhale slowly for 4 counts, and hold your breath for 4 counts.</Text>
-              <Text style={styles.intructionsText}>4. Repeat for 5-10 minutes.</Text>
+              <Text style={styles.intructionsText}>
+                1. Sit or lie down comfortably.
+              </Text>
+              <Text style={styles.intructionsText}>
+                2. Imagine a box with four equal sides.
+              </Text>
+              <Text style={styles.intructionsText}>
+                3. Breathe in slowly for 4 counts, hold your breath for 4
+                counts, exhale slowly for 4 counts, and hold your breath for 4
+                counts.
+              </Text>
+              <Text style={styles.intructionsText}>
+                4. Repeat for 5-10 minutes.
+              </Text>
               <TouchableOpacity
                 onPress={toggleAnimation}
-                style={styles.startButton(isPlaying ? COLORS.yellow : COLORS.green2)}
+                style={styles.startButton(
+                  isPlaying ? COLORS.yellow : COLORS.green2
+                )}
                 activeOpacity={0.7}
               >
-                <Text style={styles.startButtonText}>{isPlaying ? 'Pause' : 'Start'}</Text>
+                <Text style={styles.startButtonText}>
+                  {isPlaying ? 'Pause' : 'Start'}
+                </Text>
               </TouchableOpacity>
             </View>
             <View style={styles.animation}>

@@ -48,6 +48,9 @@ const Question8 = () => {
         await updateDoc(userDocRef, {
           pcosUserData: userDetail
         });
+        await updateDoc(userDocRef, {
+          isSet: true
+        });
         console.log('Data updated successfully!');
       }
     } catch (error) {
