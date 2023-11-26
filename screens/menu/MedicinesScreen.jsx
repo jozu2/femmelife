@@ -226,15 +226,17 @@ const ExpandableCalendarScreen = (props) => {
                   }
                 />
 
-                <Text style={styles.label}>Time:</Text>
-                <TouchableOpacity onPress={showTimepicker}>
-                  <Text style={styles.dateText}>
-                    {medicineFormData.time.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.time}>
+                  <Text style={styles.label}>Time:</Text>
+                  <TouchableOpacity onPress={showTimepicker}>
+                    <Text style={styles.dateText}>
+                      {medicineFormData.time.toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
 
                 <TimePickerModal
                   isVisible={showTimePicker}
@@ -243,19 +245,21 @@ const ExpandableCalendarScreen = (props) => {
                   mode="time"
                 />
 
-                <TouchableOpacity
-                  style={styles.saveButton}
-                  onPress={handleSaveMedicine}
-                >
-                  <Text style={styles.buttonText}>Save Medicine</Text>
-                </TouchableOpacity>
+                <View style={styles.bottom}>
+                  <TouchableOpacity
+                    style={styles.saveButton}
+                    onPress={handleSaveMedicine}
+                  >
+                    <Text style={styles.buttonText}>Save</Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity
-                  style={styles.cancelButton}
-                  onPress={handleModalClose}
-                >
-                  <Text style={styles.buttonText}>Cancel</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={handleModalClose}
+                  >
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </Modal>
@@ -302,10 +306,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 5,
   },
+  time: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'white', // Set a background color for iOS shadow to appear
+    elevation: 5, // Android
+    shadowColor: '#000', // iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
   dateText: {
     fontSize: 16,
-    marginBottom: 10,
-    textDecorationLine: 'underline',
+    backgroundColor: COLORS.red,
+    padding: 3,
+    elevation: 5, // Android
+    shadowColor: '#000', // iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 3,
+    padding: 10,
+    borderRadius: 8,
+    color: COLORS.white,
   },
   input: {
     height: 40,
@@ -314,19 +340,31 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
     width: '100%',
+    borderRadius: 8,
+  },
+  bottom: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 10,
+  },
+  button: {
+    flex: 1,
   },
   saveButton: {
     backgroundColor: COLORS.red,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
-    marginBottom: 10,
+    marginRight: 5,
+    width: '50%',
   },
   cancelButton: {
     backgroundColor: COLORS.red,
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',
+    marginLeft: 5,
+    width: '50%',
   },
   buttonText: {
     color: COLORS.white,
