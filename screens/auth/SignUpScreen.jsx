@@ -74,8 +74,7 @@ if(user !== null){
         totCalories: 0,
       })
       await setDoc(doc(database, "stressManagement", userId), {
-        name: name,
-        userId: userId,
+        spendTime: 0
       })
       console.log('Signed up with' + auth.currentUser?.email);
       Alert.alert('Signed up successfully! ','Please check your email for verification. ');

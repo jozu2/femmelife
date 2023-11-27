@@ -124,7 +124,6 @@ const RootStackNavigator = () => {
     }
   }, [user, auth, setUser, userPcosData ,setUserPcosData]);
 
-
   
   if (loading) {
     return (

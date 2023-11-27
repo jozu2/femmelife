@@ -16,6 +16,7 @@ const UpcomingPatient = (props) => {
           />
           <View>
             <Text style={styles.name}>{name}</Text>
+            <Text style={styles.date}>{time}</Text>
             <Text style={styles.date}>{date}</Text>
           </View>
         </View>
