@@ -43,12 +43,12 @@ const initialState = {
 const activityReducer = (state = initialState, action) => {
   console.log(action.payload);
   switch (action.type) {
-    case 'PUT_ACTIVITY_STATS':
+    case "PUT_ACTIVITY_STATS":
       return {
         ...state,
         stats: action.payload,
       };
-    case 'UPDATE_ACTIVITIES':
+    case "UPDATE_ACTIVITIES":
       const { id } = action.payload;
       const activityToUpdateKey = Object.keys(state.activities).find(
         (key) => state.activities[key].id === id

@@ -13,6 +13,7 @@ import { database } from '../../services/firebase';
 import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
 import { updateActivities } from '../../context/actions/activities';
+import { Alert } from 'react-native';
 
 const ActivityDetailsScreen = () => {
   const navigation = useNavigation();
@@ -24,7 +25,6 @@ const ActivityDetailsScreen = () => {
   const [durationDone, setDurationDone] = useState(false);
 
   const activityStats = useActivityStats();
-
   useEffect(() => {
     if (item.activity) {
       navigation.setOptions({
@@ -33,22 +33,28 @@ const ActivityDetailsScreen = () => {
     }
   }, [item, navigation]);
 
+  const addActivitiesData = async () => {
   const userId = auth.currentUser.uid;
-  console.log(activityStats);
-
-  const addActivitiesData = async (activities) => {
     try {
       const userDocRef = doc(
         database,
         'activitiesData',
-        'XydrzMHoiQuTOagD4KEB'
+        userId
       );
       const userDocSnap = await getDoc(userDocRef);
+     const data = (userDocSnap.data())
 
       if (userDocSnap.exists()) {
-        await updateDoc(userDocRef, {
-          activitiesUserData: activities,
-        });
+      const act = data.totalActivities + 1
+      const calories = data.totCalories + item.calories
+      const timeSpent = data.totTimeSpent + item.duration
+      await updateDoc(userDocRef, {
+        totalActivities: act,
+        totCalories: calories,
+        totTimeSpent: timeSpent,
+      });
+      
+    alert('Activity Finished!')
         console.log('Data updated successfully!');
       }
     } catch (error) {
@@ -56,16 +62,16 @@ const ActivityDetailsScreen = () => {
     }
   };
 
-  const updateFinishedCount = (id) => {
-    dispatch(updateActivities(id));
-    addActivitiesData(activityStats);
-  };
+  // const updateFinishedCount = () => {
+  //   dispatch(updateActivities(item.id));
+  //   addActivitiesData(activityStats);
+  // };
 
-  useEffect(() => {
-    if (durationDone) {
-      updateFinishedCount(item.id);
-    }
-  }, [durationDone]);
+  // useEffect(() => {
+  //   if (durationDone) {
+  //     updateFinishedCount(item.id);
+  //   }
+  // }, [durationDone]);
 
   const handleTimerReset = () => {
     setDurationDone(false);
@@ -112,7 +118,7 @@ const ActivityDetailsScreen = () => {
           </View>
 
           <Text style={styles.description}>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Expedita
+            Loremsssss ipsum dolor sit, amet consectetur adipisicing elit. Esxpedita
             sed, tempore eaque quos dignissimos sequi. Hic minima repudiandae
             soluta fugit, doloremque iusto dolorum explicabo cupiditate tenetur
             consectetur blanditiis maiores omnis provident molestiae vel enim
@@ -129,7 +135,7 @@ const ActivityDetailsScreen = () => {
             duration={durationDone ? 0 : item.duration * 60}
             colors={COLORS.secondary}
             size={270}
-            onComplete={() => setDurationDone(true)}
+            onComplete={addActivitiesData}
           >
             {({ remainingTime }) => (
               <Text style={styles.timerCount}>

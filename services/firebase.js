@@ -1,9 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { initializeAuth, getReactNativePersistence } from "firebase/auth";
+import {
+  initializeAuth,
+  getReactNativePersistence,
+  sendEmailVerification,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -11,13 +15,13 @@ import { createUserWithEmailAndPassword } from 'firebase/auth';
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBJRwslt_TZU8OXEzegxzz_LUL9XVVrT5I",
-  authDomain: "femme-life.firebaseapp.com",
-  projectId: "femme-life",
-  storageBucket: "femme-life.appspot.com",
-  messagingSenderId: "625019939390",
-  appId: "1:625019939390:web:217fa2635cf2ee27b1ff6f",
-  measurementId: "G-D1D6VP888L",
+  apiKey: "AIzaSyDGoaMaXA4gop6O5386cpZnYoQ5dteGU4Y",
+  authDomain: "feemlife.firebaseapp.com",
+  projectId: "feemlife",
+  storageBucket: "feemlife.appspot.com",
+  messagingSenderId: "255759737018",
+  appId: "1:255759737018:web:a91552259b346f48b96283",
+  measurementId: "G-E29N9X59VH",
 };
 
 // Initialize Firebase
@@ -27,4 +31,9 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
-export { auth, database, createUserWithEmailAndPassword };
+export {
+  auth,
+  database,
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+};

@@ -57,18 +57,32 @@ const RootStackNavigator = () => {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
-      setLoading(false);
+      const xd = auth.currentUser;
+      if(xd === null){
+        setUser(null);
+        setLoading(false);
+        return
+      }
+      if(xd.emailVerified){
+        setUser(user);
+        setLoading(false);
+      }else{
+        setUser(null);
+        setLoading(false);
+      }
+     
     });
 
     return () => {
       unsubscribe();
     }
-  }, []);
+  }, [user, auth,setUser, loading]);
 
   const [userPcosData, setUserPcosData] = useState(null);
+    
 
   useEffect(() => {
+    if (user !== null) {
     const fetchUserRole = async () => {
       try {
         const userId = auth.currentUser.uid;
@@ -85,13 +99,11 @@ const RootStackNavigator = () => {
         console.error('Error fetching user role:', error);
       }
     };
-
-    if (user) {
       fetchUserRole();
     }
-  }, [user]);
+  }, [user, auth, setUser]);
   useEffect(() => {
-    
+    if (user !== null) {
     const fetchPcosData = async () => {
       
       try {
@@ -110,12 +122,13 @@ const RootStackNavigator = () => {
       }
     };
 
-    if (user) {
+   
       fetchPcosData();
     }
-  }, [user]);
+  }, [user, auth, setUser, userPcosData ,setUserPcosData]);
 
 
+  
   if (loading) {
     return (
       <ActivityIndicator

@@ -16,8 +16,9 @@ import STYLES from '../../styles/global.style';
 import styles from "./styles/loginScreen.style";
 import { COLORS } from '../../styles/theme';
 import { Ionicons } from '@expo/vector-icons';
+
 import { auth } from '../../services/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 
 
 const LoginScreen = () => {
@@ -25,7 +26,6 @@ const LoginScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
   const login = async () => {
     try {
       if (!email.trim() || !password.trim()) {
@@ -37,6 +37,19 @@ const LoginScreen = () => {
         return;
       }
       await signInWithEmailAndPassword(auth, email, password);
+
+      const user = auth.currentUser;
+      if(user !== null){
+
+        if(user.emailVerified){
+          await signInWithEmailAndPassword(auth, email, password);
+        }else{
+          alert("Please verify your email before proceeding.");
+          auth.signOut()
+        }
+      }
+      
+      
       setLoading(true);
     } catch (error) {
       let errorMessage = "Sign in failed. Please check your credentials and try again.";
@@ -54,7 +67,12 @@ const LoginScreen = () => {
     }
   };
 
+  const [showPassword, setShowPassword] = useState(true);
 
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
   return (
     <SafeAreaView style={STYLES.container}>
       {loading ? (
@@ -79,14 +97,30 @@ const LoginScreen = () => {
               placeholderTextColor={COLORS.gray}
               style={styles.inputBox}
             />
-            <TextInput
+      <View>
+      <TextInput
               value={password}
               onChangeText={(text) => setPassword(text)}
-              secureTextEntry
+              secureTextEntry={showPassword}
               placeholder='Password'
               placeholderTextColor={COLORS.gray}
               style={styles.inputBox}
             />
+         {showPassword &&     <Ionicons
+              style={{position: 'absolute', right: 20, top: 10}}
+                  name='eye'
+                  color={'gray'}
+                  onPress={handleShowPassword}
+                  size={32}
+                />}
+             {!showPassword && <Ionicons
+              style={{position: 'absolute', right: 20, top: 10}}
+                  name='eye-off'
+                  color={'gray'}
+                  onPress={handleShowPassword}
+                  size={32}
+                />}
+      </View>
             <TouchableOpacity style={{ width: '40%', alignSelf: 'flex-end' }}>
               <Text style={styles.forgotPasswordBtn}>Forgot your password?</Text>
             </TouchableOpacity>

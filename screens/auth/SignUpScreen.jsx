@@ -15,8 +15,10 @@ import STYLES from '../../styles/global.style';
 import styles from './styles/signUpScreen.style';
 import { COLORS } from '../../styles';
 import Checkbox from 'expo-checkbox';
-import { auth, database, createUserWithEmailAndPassword } from '../../services/firebase';
+import { auth, database, createUserWithEmailAndPassword, sendEmailVerification } from '../../services/firebase';
 import { setDoc, doc } from 'firebase/firestore';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 const SignUpScreen = () => {
   const [name, setName] = useState('');
@@ -26,6 +28,7 @@ const SignUpScreen = () => {
   const [loading, setLoading] = useState(false);
   const [formattedDate, setFormattedDate] = useState('');
 
+  const navigation = useNavigation()
   useEffect(() => {
     const date = new Date();
 
@@ -37,8 +40,15 @@ const SignUpScreen = () => {
 
   const signUp = async () => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
       setLoading(true);
+
+     await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
+      await sendEmailVerification(user);
+
+if(user !== null){
+ 
+      
       const userId = auth.currentUser?.uid;
       await setDoc(doc(database, "users", userId), {
         name: name,
@@ -47,15 +57,26 @@ const SignUpScreen = () => {
         email: email,
         mensDate: null,
       })
-
       await setDoc(doc(database, "pcosData", userId), {
         name: name,
         userId: userId,
         isSet: false,
         pcosUserData: null
       })
+      await setDoc(doc(database, "activitiesData", userId), {
+        name: name,
+        userId: userId,
+        totTimeSpent: 0,
+        totalActivities: 0,
+        totCalories: 0,
+      })
       console.log('Signed up with' + auth.currentUser?.email);
-      alert('Signed up successfully!');
+      Alert.alert('Signed up successfully! ','Please check your email for verification. ');
+      if(user.emailVerified === false){
+        auth.signOut()
+        navigation.goBack()
+      }
+    }
     } catch (error) {
       alert(error.message);
       console.log(error);
@@ -63,7 +84,10 @@ const SignUpScreen = () => {
       setLoading(false);
     }
   };
-
+  const [showPassword, setShowPassword] = useState(true);
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword)
+  }
   return (
     <KeyboardAvoidingView
       keyboardVerticalOffset={100}
@@ -106,11 +130,25 @@ const SignUpScreen = () => {
             <TextInput
               value={password}
               onChangeText={(text) => setPassword(text)}
-              secureTextEntry
+              secureTextEntry={showPassword}
               placeholder='Password'
               placeholderTextColor={COLORS.lightGray}
               style={styles.inputField}
             />
+                   {showPassword &&     <Ionicons
+              style={{position: 'absolute', right: 20, top: 10}}
+                  name='eye'
+                  color={'gray'}
+                  onPress={handleShowPassword}
+                  size={32}
+                />}
+             {!showPassword && <Ionicons
+              style={{position: 'absolute', right: 20, top: 10}}
+                  name='eye-off'
+                  color={'gray'}
+                  onPress={handleShowPassword}
+                  size={32}
+                />}
           </View>
         </View>
         <View style={styles.checkBoxRow}>
