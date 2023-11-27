@@ -6,17 +6,45 @@ import styles from './styles/patientDetails.style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
-import { database } from '../../services/firebase';
+import { auth, database } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 
 const PatientDetailsScreen = () => {
   const navigation = useNavigation();
   const [patientData, setPatientData] = useState(null);
+  const [patientId, setPatientId] = useState(null);
 
   useEffect(() => {
     const fetchPatientData = async () => {
       try {
-        const patient1Ref = doc(database, 'doctorsData', 'testData', 'patients', 'patient1');
+        const userId = auth.currentUser.uid;
+
+        const patient1Ref = doc(database, 'users', userId);
+        const documentSnap = await getDoc(patient1Ref);
+
+        if (documentSnap.exists()) {
+          const patientData = documentSnap.data();
+
+          setPatientId(patientData.currentViewed);
+        }
+      } catch (error) {
+        console.error('Error fetching patient data:', error);
+      }
+    };
+
+    fetchPatientData();
+  }, []);
+
+
+  console.log('xxxx',patientId)
+  useEffect(() => {
+if(patientId === null)return
+
+    const fetchPatientData = async () => {
+
+      try {
+    
+        const patient1Ref = doc(database, 'users', patientId);
         const documentSnap = await getDoc(patient1Ref);
 
         if (documentSnap.exists()) {
@@ -29,9 +57,8 @@ const PatientDetailsScreen = () => {
     };
 
     fetchPatientData();
-  }, []);
-
-
+  }, [patientId]);
+console.log('yyyy',patientData)
 
   if (!patientData) {
     return (
@@ -62,7 +89,7 @@ const PatientDetailsScreen = () => {
             <View style={styles.detailsSection}>
               <View>
                 <Text style={styles.name}>{patientData.name}</Text>
-                <Text style={styles.id}>ID: {patientData.patientId}</Text>
+                <Text style={styles.id}>email: {patientData.email}</Text>
               </View>
 
               <View style={styles.row}>
@@ -118,11 +145,11 @@ const PatientDetailsScreen = () => {
               <Text style={[styles.detailsTitle, { marginBottom: 0 }]}>Physical</Text>
             </View>
             <View style={{ marginTop: 8 }}>
-              <Text style={styles.details}>Weight: {patientData.weight} kg</Text>
+              {/* <Text style={styles.details}>Weight: {patientData.weight} kg</Text>
               <Text style={styles.details}>Blood Pressure: {patientData.bloodPressure} mm/Hg</Text>
               <Text style={styles.details}>Breast Lumps: {patientData.breastLumps}</Text>
               <Text style={styles.details}>Hirsutism: {patientData.hirsutism}</Text>
-              <Text style={styles.details}>BMI: {patientData.BMI}</Text>
+              <Text style={styles.details}>BMI: {patientData.BMI}</Text> */}
             </View>
 
           </View>
