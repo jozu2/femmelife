@@ -79,7 +79,7 @@ const RootStackNavigator = () => {
   }, [user, auth,setUser, loading]);
 
   const [userPcosData, setUserPcosData] = useState(null);
-    
+  console.log(userRole)
 
   useEffect(() => {
     if (user !== null) {
@@ -113,10 +113,7 @@ const RootStackNavigator = () => {
         if (userPcosRefSnap.exists()) {
           const userPData = userPcosRefSnap.data();
           setUserPcosData(userPData.isSet);
-
-
         }
-
       } catch (error) {
         console.error('Error fetching user pcos data:', error);
       }

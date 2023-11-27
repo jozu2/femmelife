@@ -5,7 +5,7 @@ import STYLES from '../../styles/global.style';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
-import { database } from '../../services/firebase';
+import { auth, database } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
 import styles from '../doctor/styles/patientDetails.style';
 
@@ -13,11 +13,13 @@ import styles from '../doctor/styles/patientDetails.style';
 const ConsultationDetailsScreen = () => {
   const navigation = useNavigation();
   const [patientData, setPatientData] = useState(null);
-
+  const userID = auth.currentUser.uid
+  console.log(userID)
   useEffect(() => {
     const fetchPatientData = async () => {
+      const userID = auth.currentUser.uid
       try {
-        const patient1Ref = doc(database, 'doctorsData', 'testData', 'patients', 'patient1');
+        const patient1Ref = doc(database, 'patients', userID);
         const documentSnap = await getDoc(patient1Ref);
 
         if (documentSnap.exists()) {
@@ -28,7 +30,6 @@ const ConsultationDetailsScreen = () => {
         console.error('Error fetching patient data:', error);
       }
     };
-
     fetchPatientData();
   }, []);
 
@@ -42,14 +43,13 @@ const ConsultationDetailsScreen = () => {
     );
   }
 
-  // convert firestore timestamp to mm
-  const formattedDateRegisteredData = patientData.lastCheckUp
-    ? new Date(patientData.lastCheckUp.seconds * 1000).toLocaleDateString('en-US', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-    })
-    : '';
+  // const formattedDateRegisteredData = patientData.lastCheckUp
+  //   ? new Date(patientData.lastCheckUp.seconds * 1000).toLocaleDateString('en-US', {
+  //     day: 'numeric',
+  //     month: 'short',
+  //     year: 'numeric',
+  //   })
+  //   : '';
 
   return (
     <SafeAreaView style={STYLES.container}>
@@ -76,13 +76,13 @@ const ConsultationDetailsScreen = () => {
               <Text style={[styles.detailsTitle, { marginBottom: 0 }]}>Symptoms</Text>
             </View>
             <View style={{ marginTop: 8 }}>
-              <Text style={styles.details}>Irregular Period: {patientData.irregularPeriod}</Text>
+              {/* <Text style={styles.details}>Irregular Period: {patientData.irregularPeriod}</Text>
               <Text style={styles.details}>Excessive hair growth: {patientData.excessiveHairGrowth}</Text>
               <Text style={styles.details}>Acne: {patientData.acne}</Text>
               <Text style={styles.details}>Infertility: {patientData.infertility}</Text>
               <Text style={styles.details}>Mood Swing: {patientData.moodSwings}</Text>
               <Text style={styles.details}>Weight gain: {patientData.weightGain}</Text>
-              <Text style={styles.details}>Dark patches on skin: {patientData.darkPatchesOnSkin}</Text>
+              <Text style={styles.details}>Dark patches on skin: {patientData.darkPatchesOnSkin}</Text> */}
             </View>
           </View>
 
@@ -93,25 +93,25 @@ const ConsultationDetailsScreen = () => {
             </View>
 
             <View style={{ marginTop: 8 }}>
-              <Text style={styles.details}>Hormone levels: {patientData.hormoneLevels}</Text>
+              {/* <Text style={styles.details}>Hormone levels: {patientData.hormoneLevels}</Text>
               <Text style={styles.details}>Blood sugar levels: {patientData.bloodSugarLevels}</Text>
               <Text style={styles.details}>Cholesterol levels:  {patientData.cholesterolLevels}</Text>
-              <Text style={styles.details}>Pap smear: {patientData.papSmear}</Text>
+              <Text style={styles.details}>Pap smear: {patientData.papSmear}</Text> */}
             </View>
           </View>
 
           <View style={styles.section}>
             <View style={styles.row}>
               <MaterialCommunityIcons name='gender-female' size={19} color={COLORS.secondary} />
-              <Text style={[styles.detailsTitle, { marginBottom: 0 }]}>Pelvic Exam</Text>
+              {/* <Text style={[styles.detailsTitle, { marginBottom: 0 }]}>Pelvic Exam</Text> */}
             </View>
 
             <View style={{ marginTop: 8 }}>
-              <Text style={styles.details}>Vulva and vagina abnormalities: {patientData.vulvaAndVaginaAbnormalities}</Text>
+              {/* <Text style={styles.details}>Vulva and vagina abnormalities: {patientData.vulvaAndVaginaAbnormalities}</Text>
               <Text style={styles.details}>Bimanual exam: {patientData.bimanualExam}</Text>
               <Text style={styles.details}>Speculum exam: {patientData.speculumExam}</Text>
-              <Text style={styles.details}>Thyroid function tests: {patientData.thyroidFunctionTest}</Text>
-            </View>
+              <Text style={styles.details}>Thyroid function tests: {patientData.thyroidFunctionTest}</Text>*/}
+            </View> 
           </View>
 
         </View>

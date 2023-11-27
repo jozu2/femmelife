@@ -63,12 +63,19 @@ if(user !== null){
         isSet: false,
         pcosUserData: null
       })
+      await setDoc(doc(database, "medicineData", userId), {
+        name: name,
+      })
       await setDoc(doc(database, "activitiesData", userId), {
         name: name,
         userId: userId,
         totTimeSpent: 0,
         totalActivities: 0,
         totCalories: 0,
+      })
+      await setDoc(doc(database, "stressManagement", userId), {
+        name: name,
+        userId: userId,
       })
       console.log('Signed up with' + auth.currentUser?.email);
       Alert.alert('Signed up successfully! ','Please check your email for verification. ');

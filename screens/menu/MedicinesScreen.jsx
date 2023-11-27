@@ -95,25 +95,29 @@ const ExpandableCalendarScreen = (props) => {
       console.error('Error updating user data:', error);
     }
   };
-
   useEffect(() => {
     const getMedicineData = async () => {
       const userId = auth.currentUser.uid;
       const userDocRef = doc(database, 'medicineData', userId);
       const userDocSnap = await getDoc(userDocRef);
       const data = userDocSnap.data();
-
-      const sortedItems = data?.medicineData?.sort(
-        (a, b) => new Date(a.title) - new Date(b.title)
-      );
-
-      if (data.medicineData.length >= 2) {
-        setItems(sortedItems);
-      } else {
-        setItems((prev) => [...prev, ...sortedItems]);
+  
+      if (data?.medicineData) {
+        const sortedItems = data.medicineData.sort(
+          (a, b) => new Date(a.title) - new Date(b.title)
+        );
+  
+        if (data.medicineData.length >= 2) {
+          setItems(sortedItems);
+        } else {
+          setItems((prev) => [...prev, ...sortedItems]);
+        }
       }
     };
-    getMedicineData();
+  
+    if (medicineData.length !== 0) {
+      getMedicineData();
+    }
   }, []);
 
   const handleModalClose = () => {
