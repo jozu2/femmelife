@@ -51,7 +51,6 @@ const PatientCard = ({ image, name, id, contactNumber, onPress }) => {
     onPress={ async () => {
                
       const userId = auth.currentUser.uid;
-                    console.log('hi')
       try {
         const userDocRef = doc(database, 'users', userId);
         const userDocSnap = await getDoc(userDocRef);

@@ -81,7 +81,6 @@ const RootStackNavigator = () => {
   }, [user, auth,setUser, loading]);
 
   const [userPcosData, setUserPcosData] = useState(null);
-  console.log(userRole)
 
   useEffect(() => {
     if (user !== null) {
