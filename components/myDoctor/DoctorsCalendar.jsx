@@ -42,8 +42,6 @@ const DoctorsCalendar = () => {
     setTime(text);
   };
 
-  console.log(time)
-  console.log(selectedFaculty.userId)
   useEffect(() => {
     const usersCollectionRef = collection(database, 'users');
   
@@ -80,7 +78,6 @@ const DoctorsCalendar = () => {
     }
 
     const userId = auth.currentUser.uid;
-    console.log(userId)
     try {
       const userDocRef = doc(database, 'appointments', userId);
       const userDocSnap = await getDoc(userDocRef);

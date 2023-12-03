@@ -1,17 +1,20 @@
 import React from 'react';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import { COLORS, SIZES } from '../../styles';
+import { Image } from 'react-native';
 
 const MealCard = (props) => {
   // destructured the props.
   const {
     onPress,
     label,
-    mealName,
-    mealServings,
+    name,
+    name2,
+    servings,
     calories,
     carbs,
     protein,
+    img,
     fat
   } = props;
 
@@ -20,17 +23,26 @@ const MealCard = (props) => {
       onPress={onPress}
       style={styles.wrapper}
     >
-      <Text style={styles.label}>{label}</Text>
+      <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+
       <View style={styles.mealInfo}>
-        <Text style={styles.mealName}>{mealName}</Text>
-        <Text style={styles.mealServings}>{mealServings} servings</Text>
+      <Text style={styles.label}>{label}</Text>
+
+        <Text style={styles.mealName}>{`${name}`}</Text>
+        <Text style={[styles.mealName,{display: name2 === '' ? 'none' : 'flex'}]}>{`${name2}`}</Text>
+        <Text style={styles.mealServings}>{servings} servings</Text>
         <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text style={styles.mealCalories}>{calories} calories</Text>
-          <Text style={styles.mealNameInfo}>{carbs}g carbs</Text>
+          {/* <Text style={styles.mealNameInfo}>{carbs}g carbs</Text>
           <Text style={styles.mealNameInfo}>{protein}g protein</Text>
-          <Text style={styles.mealNameInfo}>{fat}g fat</Text>
+          <Text style={styles.mealNameInfo}>{fat}g fat</Text> */}
         </View>
         <Text></Text>
+      </View>
+
+
+      <Image source={{uri: img}} style={{width: 100, height: 100, borderRadius: 12}}/>
+
       </View>
     </Pressable>
   )
@@ -45,7 +57,6 @@ const styles = StyleSheet.create({
     paddingVertical: SIZES.small,
     paddingHorizontal: SIZES.small + 2,
     width: SIZES.width * 0.92,
-    height: SIZES.height * 0.155,
     justifyContent: 'space-between'
   },
   label: {

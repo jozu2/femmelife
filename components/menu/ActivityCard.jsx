@@ -6,7 +6,7 @@ import STYLES from '../../styles/global.style';
 
 const ActivityCard = ({ onPress, image, activityName, description, duration }) => (
     <Pressable
-      style={[STYLES.sectionCard, styles.row]}
+      style={[STYLES.sectionCard, styles.row,{paddingRight: 90, paddingVertical: 30}]}
       onPress={onPress}
     >
       <Image

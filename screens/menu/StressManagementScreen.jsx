@@ -76,8 +76,7 @@ const addActivitiesData = async (title, description) => {
       setStressDataArray(dataArray);
   }, [stressData]);
 
-  console.log('yyyyy', temporaryData)
-  console.log('xxxx',stressDataArray.length)
+
 
 
   return (

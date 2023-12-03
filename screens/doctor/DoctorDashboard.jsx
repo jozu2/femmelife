@@ -117,7 +117,7 @@ const DoctorDashboard = () => {
      
     >
       <Text style={styles.datax}>{saveAdata !== null ? saveAdata : 0}</Text>
-      <Text style={styles.dataLabelx}>{`Appointments`}</Text>
+      <Text style={styles.dataLabelx}>{`Done Appointments`}</Text>
     </TouchableOpacity>
 
             {/* <DataCard data={patients} label="Total Patients" /> */}

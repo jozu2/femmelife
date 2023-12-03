@@ -44,6 +44,8 @@ import { COLORS, SIZES } from '../styles';
 import { auth, database } from '../services/firebase';
 import { ActivityIndicator } from 'react-native';
 import { doc, getDoc } from 'firebase/firestore';
+import PatientAnalytics from '../screens/doctor/PatientAnalytics';
+import MealPlan from '../screens/doctor/MealPlan';
 
 const RootStack = createNativeStackNavigator();
 
@@ -152,6 +154,8 @@ const RootStackNavigator = () => {
             <RootStack.Screen name='Contacts' component={Contacts} />
             <RootStack.Screen name='AboutApp' component={AboutApp} />
             <RootStack.Screen name='TermsAndConditions' component={TermsAndConditions} />
+            <RootStack.Screen name='PatientA' component={PatientAnalytics}  options={{ headerTitle: 'Patient Analytics' }} />
+            <RootStack.Screen name='MealPlan' component={MealPlan}  options={{ headerTitle: 'Patient MealPlan' }} />
             <RootStack.Screen
               name='PatientDetails'
               component={PatientDetailsScreen}

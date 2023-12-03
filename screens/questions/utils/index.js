@@ -1,13 +1,15 @@
-import { useDispatch } from 'react-redux';
-import useUserDetails from '../../hooks/useUserDetails';
-export const dispatchAction = ({action, selectedChoice, setSelectedChoice}) => {
+import { useDispatch } from "react-redux";
+import useUserDetails from "../../hooks/useUserDetails";
+export const dispatchAction = ({
+  action,
+  selectedChoice,
+  setSelectedChoice,
+}) => {
   const dispatch = useDispatch();
-  
-  useEffect(() => {
-      dispatch(putUserLastPeriod(selectedChoice));
-  }, [selectedChoice])
 
-  console.log(useUserDetails())
+  useEffect(() => {
+    dispatch(putUserLastPeriod(selectedChoice));
+  }, [selectedChoice]);
 
   const handleChoiceSelect = (number, isSelected) => {
     if (isSelected) {
@@ -18,6 +20,6 @@ export const dispatchAction = ({action, selectedChoice, setSelectedChoice}) => {
   };
 
   return {
-    handleChoiceSelect
-  }
-}
+    handleChoiceSelect,
+  };
+};

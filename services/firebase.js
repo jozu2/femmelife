@@ -33,13 +33,13 @@ import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 // };
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCkoBGqbtbAnuqKh6c0IGGnwhy2CsNCCRA",
-  authDomain: "feml-f984e.firebaseapp.com",
-  projectId: "feml-f984e",
-  storageBucket: "feml-f984e.appspot.com",
-  messagingSenderId: "398433689414",
-  appId: "1:398433689414:web:5ccf783ac808a49b27cf47",
-  measurementId: "G-RZ4FZX8780",
+  apiKey: "AIzaSyAMsgBSJ6FnKAJNdFp9wy1TXax0F4etBJ8",
+  authDomain: "femlife-a2787.firebaseapp.com",
+  projectId: "femlife-a2787",
+  storageBucket: "femlife-a2787.appspot.com",
+  messagingSenderId: "226867548821",
+  appId: "1:226867548821:web:1c5e360b6876ce5604819c",
+  measurementId: "G-QKN4KQN2MC",
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

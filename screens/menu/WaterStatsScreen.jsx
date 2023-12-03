@@ -5,9 +5,12 @@ import STYLES from '../../styles/global.style';
 import { COLORS, SIZES } from '../../styles';
 import { BarChart } from 'react-native-gifted-charts';
 import styles from './styles/waterStats.style';
+import { auth, database } from '../../services/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 
 const WaterStatsScreen = () => {
   const [formattedDate, setFormattedDate] = useState('');
+  const [percentage, setPercentage] = useState('');
 
   useEffect(() => {
     const date = new Date();
@@ -16,14 +19,32 @@ const WaterStatsScreen = () => {
     setFormattedDate(formatted);
   }, []);
 
+
+  const [waterIntake, setWaterIntake] = useState(null);
+
+  useEffect(() => {
+    const fetchPatientData = async () => {
+      const userId = auth.currentUser.uid;
+
+      try {
+        const patient1Ref = doc(database, "activitiesData", userId);
+        const documentSnap = await getDoc(patient1Ref);
+        if (documentSnap.exists()) {
+          const patientData = documentSnap.data();
+          setWaterIntake(patientData);
+        }
+      } catch (error) {
+        console.error("Error fetching patient data:", error);
+      }
+    };
+
+    fetchPatientData();
+  }, []);
+
+
   const barData = [
-    { value: 1400, label: 'Mon', frontColor: COLORS.gray2 },
-    { value: 1700, label: 'Tue' },
-    { value: 2100, label: 'Wed' },
-    { value: 1900, label: 'Thur' },
-    { value: 1200, label: 'Fri', frontColor: COLORS.gray2 },
-    { value: 1900, label: 'Sat' },
-    { value: 2000, label: 'Sun' }
+    { value: waterIntake ? waterIntake.waterIntake : 0, label:waterIntake ? waterIntake.date : '', frontColor: COLORS.gray2 },
+
   ];
 
   return (
@@ -32,9 +53,9 @@ const WaterStatsScreen = () => {
       edges={['right', 'bottom', 'left']} // exclude top inset to remove space
     >
       <ScrollView >
-        <View style={[STYLES.wrapper, { marginTop: SIZES.small, flex: 1 }]}>
+        <View style={[STYLES.wrapper, { marginTop: SIZES.small, flex: 1,marginTop: '20%' }]}>
           <Text style={[STYLES.sectionTitle, { marginBottom: 4 }]}>Weekly statistics</Text>
-          <Text style={styles.weekDate}>Nov 9-15, 2023</Text>
+          <Text style={styles.weekDate}></Text>
           <View style={styles.barGraphWrapper}>
             <BarChart
               data={barData}
@@ -63,11 +84,11 @@ const WaterStatsScreen = () => {
           <Text style={[STYLES.sectionTitle, { marginBottom: 4 }]}>Today's progress</Text>
           <Text style={styles.weekDate}>{formattedDate}</Text>
           <View style={styles.todayRow}>
-            <Text style={styles.todaysText('medium')}>Progress: 10%</Text>
-            <Text style={styles.todaysText('semibold')}>200ml | 2000ml</Text>
+            <Text style={styles.todaysText('medium')}>{waterIntake ? `Progress: ${(waterIntake.waterIntake / 2000) * 100}%` : `Progress : 0%`}</Text>
+            <Text style={styles.todaysText('semibold')}>{`${waterIntake?.waterIntake}ml | 2000ml`}</Text>
           </View>
 
-          <Text style={STYLES.sectionTitle}>Most used for intake</Text>
+          {/* <Text style={STYLES.sectionTitle}>Most used for intake</Text>
           <View style={STYLES.sectionCard}>
             <View style={styles.mostUsedRow}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -103,7 +124,7 @@ const WaterStatsScreen = () => {
               </View>
               <Text style={styles.todaysText('semibold')}>0x</Text>
             </View>
-          </View>
+          </View> */}
 
         </View>
       </ScrollView>

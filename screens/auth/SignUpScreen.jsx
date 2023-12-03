@@ -56,6 +56,13 @@ if(user !== null){
         userId: userId,
         email: email,
         mensDate: null,
+        role: 'user'
+      })
+      await setDoc(doc(database, "sleepTracker", userId), {
+        name: name,
+        wakeup: null,
+        bedtime: null,
+   
       })
       await setDoc(doc(database, "pcosData", userId), {
         name: name,
@@ -72,6 +79,12 @@ if(user !== null){
         totTimeSpent: 0,
         totalActivities: 0,
         totCalories: 0,
+        waterIntake: 0,
+      })
+      await setDoc(doc(database, "mealPlan", userId), {
+        name: name,
+        userId: userId,
+  
       })
       await setDoc(doc(database, "stressManagement", userId), {
         spendTime: 0

@@ -47,7 +47,6 @@ const ActivitiesScreen = () => {
   }, []); // Empty dependency array means it runs once on mount
   
 
-  console.log('xxx',actData)
 
   return (
     <>

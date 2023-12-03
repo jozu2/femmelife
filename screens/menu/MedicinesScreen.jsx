@@ -57,8 +57,6 @@ const ExpandableCalendarScreen = (props) => {
       let updatedMedicineData;
 
       if (data && data.medicineData) {
-        // Ensure that data.medicineData is an array before mapping
-        console.log(data);
         const existingEntryIndex = data.medicineData.findIndex((entry) => {
           console.log('Comparing:', title, entry?.title);
           return entry?.title == title;

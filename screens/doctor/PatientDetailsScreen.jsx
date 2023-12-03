@@ -8,6 +8,7 @@ import { COLORS } from '../../styles';
 import { useNavigation } from '@react-navigation/native';
 import { auth, database } from '../../services/firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { useSelector } from 'react-redux';
 
 const PatientDetailsScreen = () => {
   const navigation = useNavigation();
@@ -36,7 +37,6 @@ const PatientDetailsScreen = () => {
   }, []);
 
 
-  console.log('xxxx',patientId)
   useEffect(() => {
 if(patientId === null)return
 
@@ -58,7 +58,8 @@ if(patientId === null)return
 
     fetchPatientData();
   }, [patientId]);
-console.log('yyyy',patientData)
+  
+
 
   if (!patientData) {
     return (
@@ -67,8 +68,6 @@ console.log('yyyy',patientData)
       </View>
     );
   }
-
-  // convert firestore timestamp to mm
   const formattedDateRegisteredData = patientData.lastCheckUp
     ? new Date(patientData.lastCheckUp.seconds * 1000).toLocaleDateString('en-US', {
       day: 'numeric',
@@ -100,34 +99,45 @@ console.log('yyyy',patientData)
                 <MaterialCommunityIcons name='facebook-messenger' color={COLORS.lightBlack} size={16} />
                 <Text style={styles.contactDetails}>Messenger.com/{patientData.messenger}</Text>
               </View>
-              <View style={styles.detailsRow}>
+              {/* <View style={styles.detailsRow}>
                 <MaterialCommunityIcons name='map-marker' color={COLORS.lightBlack} size={16} />
                 <Text style={styles.contactDetails}>{patientData.address}</Text>
-              </View>
-              <View style={styles.detailsRow}>
+              </View> */}
+              {/* <View style={styles.detailsRow}>
                 <MaterialCommunityIcons name='phone-message' color={COLORS.lightBlack} size={16} />
                 <Text style={styles.contactDetails}>{patientData.contactNumber}</Text>
-              </View>
+              </View> */}
               <View style={styles.detailsRow}>
                 <MaterialCommunityIcons name='email' color={COLORS.lightBlack} size={16} />
                 <Text style={styles.contactDetails}>{patientData.email}</Text>
               </View>
-              <View style={styles.detailsRow}>
+              {/* <View style={styles.detailsRow}>
                 <MaterialCommunityIcons name='calendar-account' color={COLORS.lightBlack} size={16} />
                 <Text style={styles.contactDetails}>{patientData.dateRegistered}</Text>
-              </View>
+              </View> */}
             </View>
           </View>
-          <TouchableOpacity
-            onPress={() => navigation.navigate('PatientDetailsEdit')}
-            style={styles.editButton}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.editButtonText}>Edit</Text>
-            <MaterialCommunityIcons name='pencil-box-outline' size={16} color={COLORS.secondary} />
-          </TouchableOpacity>
-
+      
           <View>
+          <TouchableOpacity
+              onPress={() => navigation.navigate('PatientA')}
+              style={styles.editButton3}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.editButtonText2}>Patient’s Analytics</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity
+              onPress={() => navigation.navigate('MealPlan')}
+              style={styles.editButton2}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.editButtonText2}>Set Meal Plan</Text>
+            </TouchableOpacity>
+          
+          <View>
+     
             <Text style={[styles.name, { color: COLORS.secondary, }]}>Medical Details</Text>
             <Text style={styles.id}>Last check up: {formattedDateRegisteredData}</Text>
             <TouchableOpacity
@@ -138,18 +148,20 @@ console.log('yyyy',patientData)
               <Text style={styles.editButtonText}>Edit</Text>
               <MaterialCommunityIcons name='pencil-box-outline' size={16} color={COLORS.secondary} />
             </TouchableOpacity>
+    
           </View>
+       {/*
           <View style={styles.section}>
             <View style={styles.row}>
               <MaterialCommunityIcons name='dumbbell' size={18} color={COLORS.secondary} />
               <Text style={[styles.detailsTitle, { marginBottom: 0 }]}>Physical</Text>
             </View>
             <View style={{ marginTop: 8 }}>
-              {/* <Text style={styles.details}>Weight: {patientData.weight} kg</Text>
+              <Text style={styles.details}>Age: {patientData.weight} </Text>
               <Text style={styles.details}>Blood Pressure: {patientData.bloodPressure} mm/Hg</Text>
               <Text style={styles.details}>Breast Lumps: {patientData.breastLumps}</Text>
               <Text style={styles.details}>Hirsutism: {patientData.hirsutism}</Text>
-              <Text style={styles.details}>BMI: {patientData.BMI}</Text> */}
+              <Text style={styles.details}>BMI: {patientData.BMI}</Text>
             </View>
 
           </View>
@@ -196,7 +208,13 @@ console.log('yyyy',patientData)
               <Text style={styles.details}>Speculum exam: {patientData.speculumExam}</Text>
               <Text style={styles.details}>Thyroid function tests: {patientData.thyroidFunctionTest}</Text>
             </View>
-          </View>
+
+            
+          </View> */}
+
+
+
+
 
         </View>
       </ScrollView>
