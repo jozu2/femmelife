@@ -7,12 +7,10 @@ import { COLORS, SIZES } from '../../styles';
 import { LineChart } from 'react-native-gifted-charts';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import { SleepDataCard } from '../../components';
 import { TouchableOpacity } from 'react-native';
 import { Modal } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment-timezone';
-import { Button } from 'react-native';
 import { auth, database } from '../../services/firebase';
 import { doc, getDoc, onSnapshot, updateDoc } from 'firebase/firestore';
 

@@ -1,23 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Text, View, FlatList } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import STYLES from '../../styles/global.style';
 import styles from './styles/activities.style';
 import { COLORS, SIZES } from '../../styles/theme';
-import { Ionicons } from '@expo/vector-icons';
 import { ActivityCard } from '../../components';
-import useActivityStats from '../../hooks/useActivityStats';
-import { putActivityStats } from '../../context/actions/activities';
 import { useDispatch } from 'react-redux';
-import { getDoc, doc, onSnapshot } from 'firebase/firestore';
+import {  doc, onSnapshot } from 'firebase/firestore';
 import { database } from '../../services/firebase';
 import { auth } from '../../services/firebase';
 import activitiesData from '../../screens/menu/activitiesData';
 const ActivitiesScreen = () => {
   const navigation = useNavigation();
   const disptach = useDispatch();
-  const [isLoading, setIsloading] = useState();
+  const [isLoading, setIsloading] = useState(false);
   const [actData, setActData] = useState(null);
 
 
@@ -63,15 +60,7 @@ const ActivitiesScreen = () => {
               <Text style={styles.completedActivities}>
                 Completed activities
               </Text>
-              {/* <View style={styles.goalAchievedRow}>
-                <Text style={styles.goalAchieved}>Goal achieved!</Text>
-                <Ionicons
-                  name="checkmark-circle"
-                  size={18}
-                  color={COLORS.green}
-                />
-              </View>
-              <Text style={styles.goalStreak}>7-days streak</Text> */}
+       
             </View>
             <View style={{ gap: SIZES.small }}>
               <View style={styles.statsCard(SIZES.height * 0.105)}>

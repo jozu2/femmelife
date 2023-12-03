@@ -156,7 +156,6 @@ if(patientWater === 2000){
           const userData = userDocSnap.data();
           setMealsData(userData.meal);
         }
-        setIsloading(false);
       } catch (error) {
         console.log('Error fetching user role:', error);
       }

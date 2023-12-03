@@ -12,8 +12,7 @@ import { updateDoc, doc, getDoc } from 'firebase/firestore';
 import { database } from '../../services/firebase';
 import { auth } from '../../services/firebase';
 import { useDispatch } from 'react-redux';
-import { updateActivities } from '../../context/actions/activities';
-import { Alert } from 'react-native';
+
 
 const ActivityDetailsScreen = () => {
   const navigation = useNavigation();
